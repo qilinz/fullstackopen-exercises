@@ -2,22 +2,22 @@ import Filter from './components/Filter'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import { useState,useEffect } from 'react'
-import axios from 'axios'
+import personService from './services/persons'
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newFilter, setNewFilter] = useState('')
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
+    personService
+      .getAll()
+      .then(initialPersons => {
+        setPersons(initialPersons)
       })
   }, [])
 
   const namesToShow = newFilter
-    ? persons.filter(person => person.name.toLowerCase().includes(newFilter))
+    ? persons.filter(person => person.name.toLowerCase().includes(newFilter.toLowerCase()))
     : persons
 
   return (
@@ -32,7 +32,7 @@ const App = () => {
       />
 
       <h2>Numbers</h2>
-      <Persons namesToShow={namesToShow}/>
+      <Persons namesToShow={namesToShow} setPersons={setPersons} persons={persons}/>
 
     </div>
   )
