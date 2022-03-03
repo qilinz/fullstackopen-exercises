@@ -3,11 +3,16 @@ import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import { useState,useEffect } from 'react'
 import personService from './services/persons'
+import SuccessNotification from './components/SuccessNotification'
+import ErrorNotification from './components/ErrorNotification'
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newFilter, setNewFilter] = useState('')
+  const [successMessage, setSuccessMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
+  
   useEffect(() => {
     personService
       .getAll()
@@ -23,12 +28,16 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <SuccessNotification message={successMessage}/>
+      <ErrorNotification message={errorMessage} />
       <Filter newFilter={newFilter} setNewFilter={setNewFilter}/>
 
       <h2>add a new</h2>
       <PersonForm 
         persons={persons}
         setPersons={setPersons}
+        setSuccessMessage={setSuccessMessage}
+        setErrorMessage={setErrorMessage}
       />
 
       <h2>Numbers</h2>
