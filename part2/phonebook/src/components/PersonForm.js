@@ -24,6 +24,10 @@ const PersonForm = ({ persons, setPersons, setSuccessMessage, setErrorMessage })
             ))
             setNewName('')
             setNewNumber('')
+            setSuccessMessage(`${newName} updated successfully`)
+            setTimeout(() => {
+            setSuccessMessage(null)
+          }, 5000)
           })
           .catch(error => {
             setErrorMessage(`Information of ${newName} has already been removed from the server`)
